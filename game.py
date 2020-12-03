@@ -17,6 +17,8 @@ def create_enemy():
         enemy_sur = black_car_sur
     elif random_enemy == 2: 
         enemy_sur = black_car_sur
+    else: 
+        enemy_sur = black_car_sur
     
     random_enemy_pos = random.randrange(200,500)
     new_enemy = enemy_sur.get_rect(midtop = ((random_enemy_pos),-1000))
@@ -84,7 +86,7 @@ def speed_display(speed):
 pygame.init()
 screen = pygame.display.set_mode((700,600))
 clock = pygame.time.Clock()
-game_font = pygame.font.Font('/home/david/Desktop/Carritos/assets/ARCADECLASSIC.TTF',40)
+game_font = pygame.font.Font('assets/ARCADECLASSIC.TTF',40)
 
 #Game Variables
 car_player_x_mov = 0
@@ -96,25 +98,25 @@ speed = 5
 random_enemy = 0 
 
 #Cover
-game_over_sur = pygame.image.load('/home/david/Desktop/Carritos/assets/mucho lo rapido.png').convert_alpha()
+game_over_sur = pygame.image.load('assets/mucho lo rapido.png').convert_alpha()
 game_over_rect = game_over_sur.get_rect(center = (350, 350))
 
 #Background
-bg_surface = pygame.image.load('/home/david/Desktop/Carritos/assets/grass_1.png').convert()
+bg_surface = pygame.image.load('assets/grass_1.png').convert()
 bg_surface = pygame.transform.scale2x(bg_surface)
 bg_y_pos = 0
 
-road_surface = pygame.image.load('/home/david/Desktop/Carritos/assets/road.png').convert()
+road_surface = pygame.image.load('assets/road.png').convert()
 road_y_pos = 0
 
 #Car player
-player_sur = pygame.image.load ('/home/david/Desktop/Carritos/assets/red_car.png').convert_alpha()
+player_sur = pygame.image.load ('assets/red_car.png').convert_alpha()
 player_rect = player_sur.get_rect(center = (350, 500))
 
 #Car enemies
-black_car_sur = pygame.image.load ('/home/david/Desktop/Carritos/assets/black_car.png').convert_alpha()
-grey_car_sur = pygame.image.load ('/home/david/Desktop/Carritos/assets/grey_car.png').convert_alpha()
-white_car_sur = pygame.image.load ('/home/david/Desktop/Carritos/assets/white_car.png').convert_alpha()
+black_car_sur = pygame.image.load ('assets/black_car.png').convert_alpha()
+grey_car_sur = pygame.image.load ('assets/grey_car.png').convert_alpha()
+white_car_sur = pygame.image.load ('assets/white_car.png').convert_alpha()
 enemy_sur = None
 #Enemies movement
 enemy_cars_list = []
@@ -125,9 +127,9 @@ pygame.time.set_timer(SPAWNCAR, 500)
 #explosion_sur = pygame.image.load('/home/david/Desktop/Carritos/assets/explosion.png').convert_alpha()
 
 #Sound
-intro_music = pygame.mixer.Sound("/home/david/Desktop/Carritos/sound/intro.wav")
-explosion_sound = pygame.mixer.Sound("/home/david/Desktop/Carritos/sound/explosion.wav")
-motor = pygame.mixer.Sound("/home/david/ReDi---Cars/sound/motor.wav")
+intro_music = pygame.mixer.Sound("sound/intro.mp3")
+explosion_sound = pygame.mixer.Sound("sound/explosion.wav")
+motor = pygame.mixer.Sound("sound/motor.wav")
 
 while True:
     for event in pygame.event.get():
