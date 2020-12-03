@@ -127,7 +127,7 @@ pygame.time.set_timer(SPAWNCAR, 500)
 #explosion_sur = pygame.image.load('/home/david/Desktop/Carritos/assets/explosion.png').convert_alpha()
 
 #Sound
-intro_music = pygame.mixer.Sound("sound/intro.mp3")
+intro_music = pygame.mixer.Sound("sound/intro.wav")
 explosion_sound = pygame.mixer.Sound("sound/explosion.wav")
 motor = pygame.mixer.Sound("sound/motor.wav")
 
