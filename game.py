@@ -100,7 +100,7 @@ game_over_sur = pygame.image.load('/home/david/Desktop/Carritos/assets/mucho lo 
 game_over_rect = game_over_sur.get_rect(center = (350, 350))
 
 #Background
-bg_surface = pygame.image.load('/home/david/Desktop/Carritos/assets/grass.png').convert()
+bg_surface = pygame.image.load('/home/david/Desktop/Carritos/assets/grass_1.png').convert()
 bg_surface = pygame.transform.scale2x(bg_surface)
 bg_y_pos = 0
 
@@ -127,6 +127,7 @@ pygame.time.set_timer(SPAWNCAR, 500)
 #Sound
 intro_music = pygame.mixer.Sound("/home/david/Desktop/Carritos/sound/intro.wav")
 explosion_sound = pygame.mixer.Sound("/home/david/Desktop/Carritos/sound/explosion.wav")
+motor = pygame.mixer.Sound("/home/david/ReDi---Cars/sound/motor.wav")
 
 while True:
     for event in pygame.event.get():
@@ -199,12 +200,14 @@ while True:
         score_check()
         score_display("main_game")
         #speed_display(speed)
+        motor.play()
         intro_music.stop()
     else:
         screen.blit(game_over_sur,game_over_rect)
         high_score = update_score(score,high_score)
         score_display("game_over")
         intro_music.play()
+        motor.stop()
 
     pygame.display.update()
     clock.tick(120)
