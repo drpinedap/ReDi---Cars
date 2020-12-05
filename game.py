@@ -49,15 +49,15 @@ def check_collision(enemies):
 
 def score_display(game_state):
     if game_state == "main_game":
-        score_surface = game_font.render (str(int(score)),False,(0,0,0))
+        score_surface = game_font.render (str(score),False,(0,0,0))
         score_rect = score_surface.get_rect (midright = (600,100))
         screen.blit(score_surface,score_rect)
     if game_state == "game_over":
-        score_surface = game_font.render(f'Score {int(score)}',False,(0,0,0))
+        score_surface = game_font.render(f'Score {(score)}',False,(0,0,0))
         score_rect = score_surface.get_rect (midright = (600,100))
         screen.blit(score_surface,score_rect)
 
-        high_score_surface = game_font.render(f'High score {int(high_score)}',False,(0,0,0))
+        high_score_surface = game_font.render(f'High score {(high_score)}',False,(0,0,0))
         high_score_rect = high_score_surface.get_rect (midright = (600,200))
         screen.blit(high_score_surface,high_score_rect)
 
@@ -99,7 +99,13 @@ random_enemy = 0
 
 #Cover
 game_over_sur = pygame.image.load('assets/mucho lo rapido.png').convert_alpha()
+instruction_sur = pygame.image.load("assets/keys.png").convert_alpha()
 game_over_rect = game_over_sur.get_rect(center = (350, 350))
+instruction_rect = instruction_sur.get_rect(center = (250,500))
+instru_text_1_sur = game_font.render(f'to  start',False,(0,0,0))
+instru_text_1_rect = instru_text_1_sur.get_rect (center = (475,450))
+instru_text_2_sur = game_font.render(f'to  move',False,(0,0,0))
+instru_text_2_rect = instru_text_2_sur.get_rect (center = (470,550))
 
 #Background
 bg_surface = pygame.image.load('assets/grass_1.png').convert()
@@ -206,6 +212,9 @@ while True:
         intro_music.stop()
     else:
         screen.blit(game_over_sur,game_over_rect)
+        screen.blit(instruction_sur,instruction_rect)
+        screen.blit(instru_text_1_sur,instru_text_1_rect)
+        screen.blit(instru_text_2_sur,instru_text_2_rect)        
         high_score = update_score(score,high_score)
         score_display("game_over")
         intro_music.play()
