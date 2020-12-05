@@ -86,7 +86,7 @@ def speed_display(speed):
 pygame.init()
 screen = pygame.display.set_mode((700,600))
 clock = pygame.time.Clock()
-game_font = pygame.font.Font('assets/ARCADECLASSIC.TTF',40)
+game_font = pygame.font.Font('assets/ARCADECLASSIC.TTF',30)
 
 #Game Variables
 car_player_x_mov = 0
@@ -96,16 +96,19 @@ high_score = 0
 can_score = True
 speed = 5
 random_enemy = 0 
+selection_car = 0
 
 #Cover
 game_over_sur = pygame.image.load('assets/mucho lo rapido.png').convert_alpha()
 instruction_sur = pygame.image.load("assets/keys.png").convert_alpha()
-game_over_rect = game_over_sur.get_rect(center = (350, 350))
+game_over_rect = game_over_sur.get_rect(center = (350, 300))
 instruction_rect = instruction_sur.get_rect(center = (250,500))
 instru_text_1_sur = game_font.render(f'to  start',False,(0,0,0))
-instru_text_1_rect = instru_text_1_sur.get_rect (center = (475,450))
-instru_text_2_sur = game_font.render(f'to  move',False,(0,0,0))
-instru_text_2_rect = instru_text_2_sur.get_rect (center = (470,550))
+instru_text_1_rect = instru_text_1_sur.get_rect (center = (450,450))
+instru_text_2_sur = game_font.render(f'to  move or',False,(0,0,0))
+instru_text_2_rect = instru_text_2_sur.get_rect (center = (460,515))
+instru_text_3_sur = game_font.render(f'change car',False,(0,0,0))
+instru_text_3_rect = instru_text_3_sur.get_rect (center = (460,540))
 
 #Background
 bg_surface = pygame.image.load('assets/grass_1.png').convert()
@@ -137,49 +140,10 @@ intro_music = pygame.mixer.Sound("sound/intro.wav")
 explosion_sound = pygame.mixer.Sound("sound/explosion.wav")
 motor = pygame.mixer.Sound("sound/motor.wav")
 
+    
+#Game loop
 while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-        #Player movement
-        if event.type == pygame.KEYDOWN:
-            
-            if event.key == pygame.K_RIGHT:
-                car_player_x_mov += 2 
-            
-            if event.key == pygame.K_LEFT:
-                car_player_x_mov -= 2
-            
-            if event.key == pygame.K_UP:
-                if game_active == False:
-                    game_active = True
-                    enemy_cars_list.clear()
-                    player_rect.center = (350, 500)
-                    car_player_x_mov = 0
-                    score = 0
-                    speed = 5
-                    intro_music.play()
-                else:
-                    car_player_x_mov = 0
-                    speed += 1
-                    if speed > 5:
-                        speed = 5
-            if event.key == pygame.K_DOWN:
-                speed -=  1
-                if speed < 5:
-                    speed = 5
-       
-        if event.type==pygame.KEYUP:
-            if event.key==pygame.K_LEFT or event.key==pygame.K_RIGHT:
-                car_player_x_mov=0
-  
-
-        if event.type == SPAWNCAR:
-            random_enemy = random.randrange(0,4)
-            enemy_cars_list.append(create_enemy())
-            
-
+    
     # Screen movement
     bg_y_pos += speed 
     draw_bg()
@@ -191,9 +155,90 @@ while True:
     draw_road()
     if road_y_pos >= 700:
         road_y_pos = 0
+
+    #in Menu
+    if game_active == False:
+        enemy_cars_list.clear()
+        player_rect.center = (350, 500)
+        car_player_x_mov = 0
+        score = 0
+        speed = 5
+        
+        
+        intro_music.play()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT:
+                    selection_car +=1
+                if event.key == pygame.K_LEFT:
+                    selection_car -=1
+                if event.key == pygame.K_UP:
+                    #Restore game to 0
+                    game_active = True
+
+            if selection_car == 0:
+                player_sur = pygame.image.load ('assets/red_car.png').convert_alpha()
+                player_rect = player_sur.get_rect(center = (350, 500))            
+            if selection_car == 1:
+                player_sur = pygame.image.load ('assets/blue_car.png').convert_alpha()
+                player_rect = player_sur.get_rect(center = (350, 500)) 
+            if selection_car == 2:
+                player_sur = pygame.image.load ('assets/green_car.png').convert_alpha()
+                player_rect = player_sur.get_rect(center = (350, 500))  
+ 
+
+
+                
+        screen.blit(game_over_sur,game_over_rect)
+        screen.blit(player_sur,(player_rect))
+        screen.blit(instruction_sur,instruction_rect)
+        screen.blit(instru_text_1_sur,instru_text_1_rect)
+        screen.blit(instru_text_2_sur,instru_text_2_rect)  
+        screen.blit(instru_text_3_sur,instru_text_3_rect)       
+        high_score = update_score(score,high_score)
+        score_display("game_over")
+        intro_music.play()
+        motor.stop()
+
+    #Events
     
-    if game_active == True: 
-        #Player movement
+    #in game
+    else:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            #Player movement
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT:
+                    car_player_x_mov += 2 
+            
+                if event.key == pygame.K_LEFT:
+                    car_player_x_mov -= 2
+            
+                if event.key == pygame.K_UP:
+                    car_player_x_mov = 0
+                    speed += 1
+                    if speed > 5:
+                        speed = 5
+                if event.key == pygame.K_DOWN:
+                    speed -=  1
+                    if speed < 5:
+                        speed = 5
+       
+            if event.type==pygame.KEYUP:
+                if event.key==pygame.K_LEFT or event.key==pygame.K_RIGHT:
+                    car_player_x_mov=0
+  
+
+            if event.type == SPAWNCAR:
+                random_enemy = random.randrange(0,4)
+                enemy_cars_list.append(create_enemy())
+            
+    #Player movement
         player_rect.centerx += car_player_x_mov
         screen.blit(player_sur,(player_rect))
         
@@ -210,15 +255,6 @@ while True:
         #speed_display(speed)
         motor.play()
         intro_music.stop()
-    else:
-        screen.blit(game_over_sur,game_over_rect)
-        screen.blit(instruction_sur,instruction_rect)
-        screen.blit(instru_text_1_sur,instru_text_1_rect)
-        screen.blit(instru_text_2_sur,instru_text_2_rect)        
-        high_score = update_score(score,high_score)
-        score_display("game_over")
-        intro_music.play()
-        motor.stop()
 
     pygame.display.update()
     clock.tick(120)
