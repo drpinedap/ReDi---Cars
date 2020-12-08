@@ -1,2 +1,7 @@
-# ReDi-Bird
-Flappy bird but uglier :)
+# ReDi final project
+
+A simple and funny car game :)
+
+![alt text](https://github.com/drpinedap/ReDi---Cars/blob/assets/game_1.png?raw=true)
+![alt text](https://github.com/drpinedap/ReDi---Cars/blob/assets/game_2.png?raw=true)
+
