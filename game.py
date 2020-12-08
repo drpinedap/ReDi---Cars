@@ -133,7 +133,7 @@ SPAWNCAR = pygame.USEREVENT
 pygame.time.set_timer(SPAWNCAR, 500)
 
 #Explosion
-#explosion_sur = pygame.image.load('/home/david/Desktop/Carritos/assets/explosion.png').convert_alpha()
+explosion_sur = pygame.image.load('/home/david/Desktop/Carritos/assets/explosion.png').convert_alpha()
 
 #Sound
 intro_music = pygame.mixer.Sound("sound/intro.wav")
@@ -167,14 +167,18 @@ while True:
         
         intro_music.play()
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT: 
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RIGHT:
                     selection_car +=1
+                    if selection_car > 2:
+                        selection_car = 0
                 if event.key == pygame.K_LEFT:
                     selection_car -=1
+                    if selection_car < 0:
+                        selection_car = 2
                 if event.key == pygame.K_UP:
                     #Restore game to 0
                     game_active = True
